@@ -19,3 +19,8 @@ export const ModalContent = styled.div`
     0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12);
 `;
 
+export const Image = styled.img`
+  display: block;
+  width: 100%;
+  height: auto;
+`;

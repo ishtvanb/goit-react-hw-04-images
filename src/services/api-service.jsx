@@ -14,7 +14,6 @@ export default async function fetchImagesByQuery(searchQuery, page) {
   const url = `${BASE_URL}`;
   try {
     const response = await axios.get(url, options);
-    console.log(response.data);
     return response.data;
   } catch (error) {
     console.error(error);

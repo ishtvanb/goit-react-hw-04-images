@@ -1,24 +1,13 @@
 import { GalleryImage } from './ImagesGalleryItem.styled';
 import PropTypes from 'prop-types';
-import Modal from 'components/Modal';
-import { Component } from 'react';
+import ImageModal from 'components/Modal';
+import { useState } from 'react';
 
-class ImagesGalleryItem extends Component {
-  static propTypes = {
-    webformatURL: PropTypes.string.isRequired,
-    largeImageURL: PropTypes.string,
-    tags: PropTypes.string.isRequired,
-  };
+const ImagesGalleryItem = ({ webformatURL, tags, info }) => {
+const [isModalOpen, setIsModalOpen] = useState(false);
 
-  state = {
-    isModalOpen: false,
-  };
-
-  openModal = () => this.setState({ isModalOpen: true });
-  closeModal = () => this.setState({ isModalOpen: false });
-  render() {
-    const { webformatURL, tags, info } = this.props;
-    const { isModalOpen } = this.state;
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
 
     return (
       <>
@@ -26,18 +15,22 @@ class ImagesGalleryItem extends Component {
           src={webformatURL}
           alt={tags}
           info={info}
-          onClick={this.openModal}
+          onClick={openModal}
         />
-        {isModalOpen && (
-          <Modal
-            largeImageUrl={this.props.info.largeImageUrl}
-            tags={this.props.info.tags}
-            onClose={this.closeModal}
-          />
-        )}
+        <ImageModal
+          isOpen={isModalOpen}
+          onclose={closeModal}
+          largeImageUrl={info.largeImageUrl}
+          tags={tags}
+        />
       </>
-    );
-  }
-}
+  );
+};
+
+ImagesGalleryItem.propTypes = {
+  webformatURL: PropTypes.string.isRequired,
+  largeImageURL: PropTypes.string,
+  tags: PropTypes.string.isRequired,
+};
 
 export default ImagesGalleryItem;

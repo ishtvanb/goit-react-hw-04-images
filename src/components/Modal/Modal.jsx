@@ -1,47 +1,36 @@
-import { createPortal } from 'react-dom';
 import PropTypes from 'prop-types';
-import { Component } from 'react';
-import { ModalBackdrop, ModalContent } from './Modal.styled';
-import { Image } from 'components/ImagesGalleryItem/ImagesGalleryItem.styled';
+import Modal from 'react-modal';
+import { ModalBackdrop, ModalContent, Image } from './Modal.styled';
 
-const modalRoot = document.querySelector('#modal-root');
+Modal.setAppElement('#root');
 
-export default class Modal extends Component {
-  static propTypes = {
-    largeImageUrl: PropTypes.string.isRequired,
-    onClose: PropTypes.func.isRequired,
+const ImageModal = ({ largeImageUrl, tags, isOpen, onClose }) => {
+  return (
+    <Modal
+      isOpen={isOpen}
+      onRequestClose={onClose}
+      contentLabel="Image modal"
+      className="_"
+      overlayClassName="_"
+      contentElement={(props, children) => (
+        <ModalContent {...props}>{children}</ModalContent>
+      )}
+      overlayElement={(props, contentElement) => (
+        <ModalBackdrop {...props}>{contentElement}</ModalBackdrop>
+      )}  
+  >
+      <div>
+        <Image src={largeImageUrl} alt={tags} />
+      </div>
+    </Modal>
+  );
+};
+
+ImageModal.propTypes = {
+  largeImageUrl: PropTypes.string.isRequired,
+  tags: PropTypes.string.isRequired,
+  isOpen: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired,
   };
 
-  componentDidMount() {
-    window.addEventListener('keydown', this.handleKeyDown);
-  }
-  
-  componentWillUnmount() {
-    window.removeEventListener('keydown', this.handleKeyDown);
-  }
-
-  handleKeyDown = e => {
-    if (e.code === 'Escape') {
-      this.props.onClose();
-    }
-  };
-
-  handleBackdropClick = event => {
-    if (event.currentTarget === event.target) {
-      this.props.onClose();
-    }
-  };
-
-  render() {
-    const { largeImageUrl, tags } = this.props;
-    return createPortal(
-      <ModalBackdrop onClick={this.handleBackdropClick}>
-        <ModalContent>
-          <Image src={largeImageUrl} alt={tags} />
-        </ModalContent>
-      </ModalBackdrop>,
-      modalRoot
-    );
-  }
-}
-
+export default ImageModal;

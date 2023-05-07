@@ -1,14 +1,14 @@
+import { useState } from 'react';
 import { GalleryImage } from './ImagesGalleryItem.styled';
 import PropTypes from 'prop-types';
 import ImageModal from 'components/Modal';
-import { useState } from 'react';
 
 const ImagesGalleryItem = ({ webformatURL, tags, info }) => {
 const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
-
+  const openModal = () => setIsModalOpen(true);
+  
     return (
       <>
         <GalleryImage
@@ -19,7 +19,7 @@ const [isModalOpen, setIsModalOpen] = useState(false);
         />
         <ImageModal
           isOpen={isModalOpen}
-          onclose={closeModal}
+          onClose={closeModal}
           largeImageUrl={info.largeImageUrl}
           tags={tags}
         />
